@@ -1,0 +1,34 @@
+{
+  "name": "yoki",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "bootstrap": "pnpm install",
+    "build": "pnpm --parallel --filter @yoki/* --filter yoki run build",
+    "rebuild": "npm run clean-dist && npm run build",
+    "dev:react": "pnpm --filter @yoki/react-example --filter yoki run dev",
+    "lint": "eslint --ext .ts packages/*/*/src/**",
+    "format": "prettier --write --parser typescript \"packages/**/*.ts?(x)\"",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.2.0",
+    "@typescript-eslint/eslint-plugin": "^8.23.0",
+    "@typescript-eslint/parser": "^8.23.0",
+    "eslint": "9.17.0",
+    "eslint-config-prettier": "^10.0.0",
+    "eslint-plugin-react": "^7.37.4",
+    "prettier": "^3.0.0",
+    "typescript": "^5.7.3",
+    "vitepress": "^1.6.3"
+  },
+  "packageManager": "pnpm@8.6.0",
+  "engines": {
+    "node": ">=16"
+  }
+}
