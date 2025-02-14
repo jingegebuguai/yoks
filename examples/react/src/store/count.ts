@@ -1,8 +1,8 @@
-import { Store } from '@yoks/core';
+import { Yoks } from '@yoks/core';
 
 type CountState = { count: number };
 
-const countStore = new Store<
+const countStore = new Yoks<
   CountState,
   {
     increase: () => (state: CountState) => CountState;
@@ -21,5 +21,6 @@ const countStore = new Store<
     initCount: () => ({ count: 0 }),
   },
 );
+
 
 export { countStore };

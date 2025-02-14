@@ -1,4 +1,4 @@
-import { Store } from '@yoks/core';
+import { Yoks } from '@yoks/core';
 import { produce } from 'immer';
 
 type DeepState = {
@@ -12,7 +12,7 @@ type DeepState = {
   };
 };
 
-const countStore = new Store<
+const countStore = new Yoks<
   DeepState,
   {
     increaseDeepCount: () => (state: DeepState) => DeepState;

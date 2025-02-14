@@ -2,7 +2,7 @@ import { useStore } from '@yoks/react';
 import { userStore } from '../store/user';
 
 export default function UserPanel() {
-  const state = useStore(userStore, ['userInfo', 'loading', 'error']);
+  const state = useStore(userStore, ['userInfo', 'loading', 'error', 'date']);
 
   const handleLogin = () => {
     userStore.actions.login('test@test.com', '123456');
@@ -28,6 +28,8 @@ export default function UserPanel() {
           <p className="hint">(Use test@test.com / 123456 for demo login)</p>
         </div>
       )}
+      <p>Date: {state.date.toLocaleString()}</p>
+      <button onClick={() => state.setDate(new Date())}>New Date</button>
     </div>
   );
 }
