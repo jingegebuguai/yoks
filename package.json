@@ -1,19 +1,20 @@
 {
-  "name": "yoki",
+  "name": "yoks",
   "private": true,
   "workspaces": [
     "packages/*"
   ],
   "scripts": {
     "bootstrap": "pnpm install",
-    "build": "pnpm --parallel --filter @yoki/* --filter yoki run build",
+    "build": "pnpm --parallel --filter @yoks/* --filter yoks run build",
     "rebuild": "npm run clean-dist && npm run build",
-    "dev:react": "pnpm --filter @yoki/react-example --filter yoki run dev",
+    "dev:react": "pnpm --filter @yoks/react-example --filter yoks run dev",
     "lint": "eslint --ext .ts packages/*/*/src/**",
     "format": "prettier --write --parser typescript \"packages/**/*.ts?(x)\"",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs"
+    "docs:preview": "vitepress preview docs",
+    "prepare": "husky install"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
@@ -32,24 +33,10 @@
     "vitepress": "^1.6.3",
     "globals": "^15.14.0",
     "husky": "^9.0.11",
-    "lint-staged": "^14.0.1",
     "typescript": "^5.7.3"
   },
   "packageManager": "pnpm@8.6.0",
   "engines": {
     "node": ">=16"
-  },
-  "lint-staged": {
-    "*.{md,json}": [
-      "prettier --write --no-error-on-unmatched-pattern"
-    ],
-    "*.{js,ts,jsx,tsx,vue}": [
-      "eslint --fix",
-      "prettier --parser=typescript --write"
-    ],
-    "*.{css,scss}": [
-      "stylelint --fix",
-      "prettier --write"
-    ]
   }
 }

@@ -14,8 +14,8 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "paths": {
-      "@yoki/*": ["packages/*/src"]
+      "@yoks/*": ["packages/*/src"]
     }
   },
   "exclude": ["node_modules", "dist"]
-} 
+}

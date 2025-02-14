@@ -1,33 +1,39 @@
-import { useEffect, useState, useRef } from "react";
-import { Store, StoreActions } from "@yoki/core";
+import { useEffect, useState, useRef } from 'react';
+import { Store, StoreActions } from '@yoks/core';
 
 export function useStore<T extends object, A extends StoreActions<T>>(
-  store: Store<T, A>
-): T & A;
-export function useStore<T extends object, A extends StoreActions<T>, S>(
   store: Store<T, A>,
-  selector: (state: T) => S
-): S & A;
-export function useStore<T extends object, A extends StoreActions<T>, S = T>(
-  store: Store<T, A>,
-  selector?: (state: T) => S
-): S & A {
-  const selectorRef = useRef(selector);
-  selectorRef.current = selector;
-
-  const [state, setState] = useState(() =>
-    selector ? selector(store.getState()) : (store.getState() as unknown as S)
-  );
+  deps?: Array<keyof T>,
+): T & A {
+  const [state, setState] = useState(() => store.getState());
+  const storeRef = useRef(store);
+  const depsRef = useRef(deps);
 
   useEffect(() => {
     const listener = (newState: T) => {
-      const currentSelector = selectorRef.current;
-      setState(
-        currentSelector ? currentSelector(newState) : (newState as unknown as S)
-      );
+      if (depsRef.current) {
+        setState(prevState => {
+          const changes: Partial<T> = {};
+
+          let hasChanges = false;
+
+          depsRef.current?.forEach(key => {
+            if (prevState[key] !== newState[key]) {
+              changes[key] = newState[key];
+              hasChanges = true;
+            }
+          });
+
+          return hasChanges ? { ...prevState, ...changes } : prevState;
+        });
+
+        return;
+      }
+
+      setState(newState);
     };
 
-    const unsubscribe = store.subscribe(listener, selector);
+    const unsubscribe = storeRef.current.subscribe(listener, depsRef.current);
 
     return () => {
       unsubscribe();

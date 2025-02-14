@@ -3,8 +3,8 @@
 layout: home
 
 hero:
-  name: "Yoki"
-  text: "A simple cross-framework state management solution"
+  name: 'yoks'
+  text: 'A simple cross-framework state management solution'
   tagline: Simple、Cross-framework
   image:
     src: /logo.png

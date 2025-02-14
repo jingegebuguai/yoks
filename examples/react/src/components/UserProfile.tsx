@@ -1,58 +1,33 @@
-import { useState } from "react";
-import { useStore } from "@yoki/react";
-import { userStore, updatePreferences, logout } from "../store/user";
+import { useStore } from '@yoks/react';
+import { userStore } from '../store/user';
 
-export const UserProfile = () => {
-  const { profile, preferences } = useStore(userStore);
-  const { isAuthenticated } = useStore(userStore, (state) => ({
-    isAuthenticated: state.isAuthenticated,
-  }));
-  const [count, setCount] = useState(0);
+export default function UserPanel() {
+  const state = useStore(userStore, ['userInfo', 'loading', 'error']);
 
-  if (!isAuthenticated) return null;
+  const handleLogin = () => {
+    userStore.actions.login('test@test.com', '123456');
+  };
 
   return (
-    <div className="user-profile">
-      {profile && (
-        <>
-          <h2>Welcome, {profile.name}</h2>
-          <p>Email: {profile.email}</p>
-        </>
+    <div className="user-panel">
+      <h2>User Example</h2>
+      {state.loading ? (
+        <p>Loading...</p>
+      ) : state.error ? (
+        <p className="error">{state.error}</p>
+      ) : state.userInfo ? (
+        <div className="user-info">
+          <p>Welcome, {state.userInfo.name}!</p>
+          <p>Email: {state.userInfo.email}</p>
+          <button onClick={() => userStore.actions.logout()}>Logout</button>
+        </div>
+      ) : (
+        <div className="login-form">
+          <p>Please login to continue</p>
+          <button onClick={handleLogin}>Login</button>
+          <p className="hint">(Use test@test.com / 123456 for demo login)</p>
+        </div>
       )}
-
-      <span>Count Number: {count}</span>
-      <span onClick={() => setCount(count + 1)}>Add Count</span>
-
-      <div className="preferences">
-        <h3>Preferences</h3>
-        <label>
-          <input
-            type="checkbox"
-            checked={preferences.theme === "dark"}
-            onChange={(e) =>
-              updatePreferences({
-                theme: e.target.checked ? "dark" : "light",
-              })
-            }
-          />
-          Dark Theme
-        </label>
-
-        <label>
-          <input
-            type="checkbox"
-            checked={preferences.notifications}
-            onChange={(e) =>
-              updatePreferences({
-                notifications: e.target.checked,
-              })
-            }
-          />
-          Enable Notifications
-        </label>
-      </div>
-
-      <button onClick={logout}>Logout</button>
     </div>
   );
-};
+}

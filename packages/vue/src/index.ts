@@ -1,9 +1,9 @@
 import { ref, onUnmounted, Ref } from 'vue';
-import { Store } from '@yoki/core';
+import { Store } from '@yoks/core';
 
 export function useStore<T extends object>(store: Store<T>): Ref<T> {
   const state = ref(store.getState()) as Ref<T>;
-  
+
   const unsubscribe = store.subscribe(() => {
     state.value = store.getState();
   });
@@ -13,4 +13,4 @@ export function useStore<T extends object>(store: Store<T>): Ref<T> {
   });
 
   return state;
-} 
+}

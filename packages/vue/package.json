@@ -1,5 +1,5 @@
 {
-  "name": "@yoki/vue",
+  "name": "@yoks/vue",
   "version": "1.0.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -12,7 +12,7 @@
     "vue": ">=3.0.0"
   },
   "dependencies": {
-    "@yoki/core": "workspace:*"
+    "@yoks/core": "workspace:*"
   },
   "devDependencies": {
     "vue": "^3.0.0"

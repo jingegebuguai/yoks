@@ -1,29 +1,30 @@
-import { defineConfig } from "vitepress";
+import { defineConfig } from 'vitepress';
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: "Yoki",
-  description: "A simple cross-framework state management solution",
+  title: 'yoks',
+  description: 'A simple cross-framework state management solution',
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
-      { text: "Home", link: "/" },
-      { text: "Documents", link: "/documents" },
+      { text: 'Home', link: '/' },
+      { text: 'Documents', link: '/documents' },
     ],
 
     sidebar: [
       {
-        text: "Examples",
+        text: 'Guide',
         items: [
-          { text: "Proxy", link: "/proxy" },
-          { text: "Markdown Examples", link: "/markdown-examples" },
-          { text: "Runtime API Examples", link: "/api-examples" },
+          { text: 'Getting Started', link: '/getting-start' },
+          { text: 'Update State', link: '/update-state' },
         ],
+      },
+      {
+        text: 'Advanced',
+        items: [{}],
       },
     ],
 
-    socialLinks: [
-      { icon: "github", link: "https://github.com/vuejs/vitepress" },
-    ],
+    socialLinks: [{ icon: 'github', link: 'https://github.com/jingegebuguai/yoks' }],
   },
 });

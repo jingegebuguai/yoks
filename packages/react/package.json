@@ -1,5 +1,5 @@
 {
-  "name": "@yoki/react",
+  "name": "@yoks/react",
   "version": "1.0.0",
   "main": "src/index.ts",
   "types": "src/index.ts",
@@ -8,7 +8,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@yoki/core": "workspace:*"
+    "@yoks/core": "workspace:*"
   },
   "devDependencies": {
     "@types/react": "^18.2.0",
