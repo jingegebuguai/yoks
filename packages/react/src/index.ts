@@ -1,8 +1,8 @@
 import { useEffect, useState, useRef } from 'react';
-import { Store, StoreActions } from '@yoks/core';
+import { Yoks, StoreActions } from '@yoks/core';
 
 export function useStore<T extends object, A extends StoreActions<T>>(
-  store: Store<T, A>,
+  store: Yoks<T, A>,
   deps?: Array<keyof T>,
 ): T & A {
   const [state, setState] = useState(() => store.getState());

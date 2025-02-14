@@ -7,22 +7,39 @@ type ActionFunction<T> = (...args: SafeAny[]) => (state: T) => T;
 type ActionInitFunction<T> = (...args: SafeAny[]) => T;
 export type StoreActions<T> = Record<string, ActionFunction<T> | ActionInitFunction<T>>;
 
-export type StoreConfiguration = {
-  createSelectors: boolean;
+export type PersistOptions<T> = {
+  // default localStorage
+  key: string;
+  storage?: (state: T) => object;
 };
 
-export class Store<T extends object, A extends StoreActions<T>> {
+export type StoreConfiguration<T> = {
+  atom?: boolean;
+  immer?: boolean;
+  persist?: PersistOptions<T>;
+};
+
+const defaultConfig: StoreConfiguration<object> = {
+  atom: true,
+  immer: false,
+};
+
+export class Yoks<T extends object, A extends StoreActions<T>> {
   private listeners: Set<Listener<T>> = new Set();
   private subscriptions: WeakMap<Listener<T>, Set<keyof T>> = new Map();
   private state: T;
   private _actions: A;
 
-  constructor(initialState: T, actions: A, config?: StoreConfiguration) {
+  constructor(
+    initialState: T,
+    actions: A,
+    config: StoreConfiguration<T> = defaultConfig,
+  ) {
     this.state = initialState;
 
     const boundActions = {} as A;
 
-    if (config?.createSelectors) {
+    if (config?.atom) {
       for (const key in initialState) {
         Object.defineProperty(this, key, {
           get: () => this.state[key],
