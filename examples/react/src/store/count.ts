@@ -1,4 +1,4 @@
-import { Store } from "@yoki/core";
+import { Store } from '@yoks/core';
 
 type CountState = { count: number };
 
@@ -19,7 +19,7 @@ const countStore = new Store<
     }),
     decrease: () => (state: CountState) => ({ count: state.count - 1 }),
     initCount: () => ({ count: 0 }),
-  }
+  },
 );
 
 export { countStore };

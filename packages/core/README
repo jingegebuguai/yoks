@@ -1,6 +1,6 @@
-# @yoki/core
+# @yoks/core
 
-A lightweight and flexible state management library that serves as the foundation for @yoki ecosystem.
+A lightweight and flexible state management library that serves as the foundation for @yoks ecosystem.
 
 ## Features
 
@@ -14,13 +14,13 @@ A lightweight and flexible state management library that serves as the foundatio
 ## Installation
 
 ```bash
-npm install @yoki/core
+npm install @yoks/core
 ```
 
 ## Basic Usage
 
 ```typescript
-import { Store } from "@yoki/core";
+import { Store } from "@yoks/core";
 
 // Define your state interface
 interface CounterState {
@@ -57,10 +57,10 @@ unsubscribe();
 
 ### React
 
-Use with [@yoki/react](https://github.com/yourusername/yoki/tree/main/packages/react):
+Use with [@yoks/react](https://github.com/yourusername/yoks/tree/main/packages/react):
 
 ```typescript
-import { useStore } from "@yoki/react";
+import { useStore } from "@yoks/react";
 
 const state = useStore(store);
 ```
