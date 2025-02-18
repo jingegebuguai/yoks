@@ -37,6 +37,7 @@ export default [
   // TypeScript files
   {
     files: ['**/*.ts', '**/*.tsx'],
+    ignores: ['docs/**'],
     languageOptions: {
       parser: tsParser,
       parserOptions: {

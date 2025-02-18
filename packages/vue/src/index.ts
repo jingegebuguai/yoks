@@ -1,5 +1,5 @@
 import { ref, onUnmounted, Ref } from 'vue';
-import { Store } from '@yoks/core';
+import { Store } from 'packages/core/src/core';
 
 export function useStore<T extends object>(store: Store<T>): Ref<T> {
   const state = ref(store.getState()) as Ref<T>;
