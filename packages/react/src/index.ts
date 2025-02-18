@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-import { Yoks, StoreActions } from '@yoks/core';
+import { Yoks, StoreActions } from 'packages/core/src/core';
 
 export function useStore<T extends object, A extends StoreActions<T>>(
   store: Yoks<T, A>,

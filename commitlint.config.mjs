@@ -21,7 +21,7 @@ export default {
     'subject-case': [
       2,
       'always',
-      ['sentence-case', 'start-case', 'pascal-case', 'upper-case'],
+      ['sentence-case', 'start-case', 'pascal-case', 'upper-case', 'lower-case'],
     ],
   },
 };

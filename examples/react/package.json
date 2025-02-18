@@ -14,7 +14,8 @@
     "react-dom": "^19.0.0",
     "immer": "^10.0.2",
     "@yoks/core": "workspace:*",
-    "@yoks/react": "workspace:*"
+    "@yoks/react": "workspace:*",
+    "zustand": "^4.5.5"
   },
   "devDependencies": {
     "@eslint/js": "^9.19.0",
