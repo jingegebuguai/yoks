@@ -1,0 +1,34 @@
+{
+  "name": "@yoks/benchmark",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@yoks/core": "workspace:*",
+    "@yoks/react": "workspace:*",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "zustand": "^4.4.1",
+    "redux": "^4.2.1",
+    "react-redux": "^8.1.2",
+    "recoil": "^0.7.7",
+    "jotai": "^2.4.2",
+    "chart.js": "^4.4.0",
+    "react-chartjs-2": "^5.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.21",
+    "@types/react-dom": "^18.2.7",
+    "@vitejs/plugin-react": "^4.0.4",
+    "typescript": "^5.2.2",
+    "vite": "^4.4.9",
+    "vitest": "^0.34.4",
+    "web-vitals": "^3.4.0"
+  }
+}

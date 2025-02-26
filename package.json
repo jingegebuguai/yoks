@@ -9,6 +9,7 @@
     "build": "pnpm --parallel --filter @yoks/* --filter yoks run build",
     "rebuild": "npm run clean-dist && npm run build",
     "dev:react": "pnpm --filter @yoks/react-example --filter yoks run dev",
+    "dev:benchmark": "pnpm --filter @yoks/benchmark run dev",
     "lint": "eslint --ext .ts packages/*/*/src/**",
     "format": "prettier --write --parser typescript \"packages/**/*.ts?(x)\"",
     "docs:dev": "vitepress dev docs",
