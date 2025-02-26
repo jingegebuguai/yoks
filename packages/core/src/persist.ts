@@ -1,5 +1,9 @@
-import { create } from 'domain';
 import { SafeAny } from './types';
+
+type JsonStorageOptions = {
+  reviver?: (key: string, value: SafeAny) => SafeAny;
+  replacer?: (key: string, value: SafeAny) => SafeAny;
+};
 
 export type PersistStorageValue<T> = { state: T; version: number };
 
@@ -20,14 +24,55 @@ export interface PersistStorage<T> {
 }
 
 export type PersistOptions<T> = {
-  // default localStorage
+  // storage key
   key: string;
+  // storage version
   version?: number;
+  // create storage to persist
   storage?: PersistStorage<T>;
-  // migrate?: (persistedState: SafeAny, version: number) => T; // 数据迁移函数
+  /**
+   * migrate
+   * @param persistedState
+   * @param version
+   * @returns
+   */
+  migrate?: (persistedState: SafeAny, version: number) => T;
+  /**
+   * serialize
+   * @param state
+   * @returns
+   */
+  serialize?: (state: T) => string;
+  /**
+   * deserialize
+   * @param value
+   * @returns
+   */
+  deserialize?: (value: string) => T;
+  /**
+   * partialize save to storage
+   * @param state
+   * @returns
+   */
+  partialize?: (state: T) => Partial<T>;
+  /**
+   * beforeSave
+   * @param state
+   * @returns
+   */
+  beforeSave?: (state: T) => T;
+  /**
+   * afterSave read from storage
+   * @param state
+   * @returns
+   */
+  afterRead?: (state: T) => T;
 };
 
-export const createJSONStorage = <T>(getStorage: () => DefaultStore) => {
+export const createJSONStorage = <T>(
+  getStorage: () => DefaultStore,
+  options?: JsonStorageOptions & Pick<PersistOptions<T>, 'serialize' | 'deserialize'>,
+) => {
   const storage = getStorage();
 
   if (!storage) {
@@ -36,7 +81,11 @@ export const createJSONStorage = <T>(getStorage: () => DefaultStore) => {
 
   const PersistStorage = {
     setItem: (key: string, value: PersistStorageValue<T>) => {
-      storage.setItem(key, JSON.stringify(value));
+      const serialized = options?.serialize
+        ? options.serialize(value.state)
+        : JSON.stringify(value, options?.replacer);
+
+      storage.setItem(key, serialized);
     },
     getItem: (key: string) => {
       const value = storage.getItem(key);
@@ -46,7 +95,9 @@ export const createJSONStorage = <T>(getStorage: () => DefaultStore) => {
         }
 
         try {
-          return JSON.parse(value) as PersistStorageValue<T>;
+          return options?.deserialize
+            ? options.deserialize(value)
+            : (JSON.parse(value, options?.reviver) as PersistStorageValue<T>);
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
         } catch (_) {
           return null;
@@ -75,7 +126,15 @@ export const initPersist = async <T>(
   setState: (state: T) => void,
   getState: () => T,
 ) => {
-  const { key, storage = createJSONStorage(() => localStorage), version = 0 } = options;
+  const {
+    key,
+    storage = createJSONStorage(() => localStorage),
+    migrate,
+    afterRead,
+    beforeSave,
+    partialize,
+    version = 0,
+  } = options;
 
   if (!storage) {
     return undefined;
@@ -85,18 +144,36 @@ export const initPersist = async <T>(
   const persistedState = await storage.getItem(key);
 
   if (persistedState) {
-    // TODO: migrate
-    // const state = migrate && version ? migrate(persistedState, version) : persistedState;
+    const newState =
+      migrate && version ? migrate(persistedState, version) : persistedState.state;
 
-    setState(persistedState.state);
+    // Apply afterRead transformation if provided
+    const processedState = afterRead ? afterRead(newState) : newState;
+    setState(processedState);
   } else {
     // If no persisted state, save the initial state
     const initialState = getState();
-    await storage.setItem(key, { state: initialState, version });
+
+    // Process state before saving
+    const stateToSave = beforeSave ? beforeSave(initialState) : initialState;
+
+    // Apply partialize if provided
+    const finalState = partialize ? (partialize(stateToSave) as T) : stateToSave;
+    await storage.setItem(key, { state: finalState, version });
   }
 
   // Return state save function
   return async (state: T) => {
-    await storage.setItem(key, { state, version });
+    // Process state before saving
+    const stateToSave = beforeSave ? beforeSave(state) : state;
+
+    // Apply partialize if provided
+    const finalState = partialize ? (partialize(stateToSave) as T) : stateToSave;
+
+    await storage.setItem(key, { state: finalState, version });
   };
 };
+
+// TODO: 暴露 store api
+
+//

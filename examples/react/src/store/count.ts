@@ -20,11 +20,6 @@ const countStore = new Yoks<
     decrease: () => (state: CountState) => ({ count: state.count - 1 }),
     initCount: () => ({ count: 0 }),
   },
-  {
-    persist: {
-      key: 'count',
-    },
-  },
 );
 
 export { countStore };

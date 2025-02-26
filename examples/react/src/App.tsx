@@ -1,29 +1,38 @@
+import { BrowserRouter, Routes, Route, NavLink } from 'react-router';
+import Base from './app/base';
+import Persist from './app/persist';
+import React from 'react';
 import './App.css';
-import UserPanel from './components/UserProfile';
-import DeepState from './components/DeepCount';
-import Counter from './components/Counter';
-import UserTheme from './components/UserTheme';
-import useCounterStore from './zustand/test';
 
-export default function App() {
-  const { count, increase, reset } = useCounterStore();
-
+export const Navigation: React.FC = () => {
   return (
-    <div className="app">
-      <h1>yoks Store Examples</h1>
-      <Counter />
-      <hr />
-      <UserPanel />
-      <hr />
-      <UserTheme />
-      <hr />
-      <DeepState />
-
-      <div>
-        <h1>计数器: {count}</h1>
-        <button onClick={increase}>增加</button>
-        <button onClick={reset}>重置</button>
-      </div>
-    </div>
+    <nav className="navigation">
+      <NavLink to="/" className={({ isActive }) => `link ${isActive ? 'active' : ''}`}>
+        Home
+      </NavLink>
+      <NavLink
+        to="/persist"
+        className={({ isActive }) => `link ${isActive ? 'active' : ''}`}
+      >
+        Persist
+      </NavLink>
+    </nav>
   );
-}
+};
+
+const App: React.FC = () => {
+  return (
+    <BrowserRouter>
+      <div className="App">
+        <h1>Todo App with Persisted State</h1>
+        <Navigation />
+        <Routes>
+          <Route path="/" element={<Base />} />
+          <Route path="/persist" element={<Persist />} />
+        </Routes>
+      </div>
+    </BrowserRouter>
+  );
+};
+
+export default App;
